@@ -1,0 +1,371 @@
+body, p, h1, ul, li blockquote {
+	padding: 0px;
+	margin: 0px;
+}
+
+body {
+	font-family: "Volkorn", Georgia, serif;
+}
+
+li {
+	list-style: none; /* Tira bolinha dos links barranav */
+}
+
+a {
+	text-decoration: none; /* Retira sublinhado dos links */
+}
+
+img {
+	width: 100%;
+	display: block;
+	border-radius: 5px;
+}
+
+/* GRID GERAL */
+
+
+/* 1fr = 1 fracao em um . 3fr = um terco da fracao */
+
+.estrutura {
+	display: grid;										
+	grid-template-columns: minmax(160px, 1fr) 3fr 300px; /*primeira coluna 160px, Definir colunar site (Quero 3) , ultima coluna 300px*/
+	grid-template-areas:
+		"header header header"  /* Pega as 3 colunas com o header*/
+		"sidenav content anuncios"
+		"footer footer footer"
+	;								 													 
+}	
+
+@media (max-width: 1200px) {
+	.estrutura {
+		grid-template-areas:
+		"header header header"
+		"sidenav content content"
+		"sidenav anuncios anuncios"
+		"footer footer footer"
+	; 
+	}
+}
+
+@media (max-width: 760px) {
+	.estrutura {
+		grid-template-columns: 100%;
+		grid-template-areas:
+		"header"
+		"sidenav"
+		"content"
+		"anuncios"
+		"footer"
+		;
+	}
+}
+
+/* HEADER */												   	 
+
+.header {
+	grid-area: header; /* Ja nos mostra o header pegando toda sua area */
+	background: linear-gradient(135deg, #8844ee, #B07DFB); /* Faz um gradiente */
+	padding: 30px;  /* Padding do header */
+	display: grid;
+	grid-template-columns: 1fr auto; /* Joga os itens do header um para cada lado*/
+	align-items: center; /* Alinha os itens no eixo vertical (Aling: pra vertical) */
+}
+
+.logo {
+	max-width: 200px;  /* No maximo 200px para a imagem do logo (Wildbeast) */
+}
+
+.header nav ul {
+	display: flex;  /* Faz Sobre/animais/contato ficarem lado a lado */
+	flex-wrap: wrap;  /* Para quebrar linha */
+}
+
+.header nav a {
+	display: block;
+	padding: 10px;
+	color: white;
+	font-size: 1.125em; /* 18 PIXELS */
+	background: rgba(0,0,0,.1); /* Cria o fundo preto com opacidade de 10% nos links do header */
+	border-radius: 5px; /* Cria bordas arredondadas */
+	transition: 0.1s;
+}
+
+.header nav a:hover {    /* Comandos para quando estou com o mouse em cima dos links no header */
+   	background: rgba(0,0,0,.5); /* 50% de opacidade quando passo mouse em cima */
+}
+
+.header li + li {      /* Esta falando que todo li que vier apos um li quero adicionar 30px, (No primeiro ele nao vai adicionar) */
+	margin-left: 30px;
+}
+
+@media (max-width: 760px) {
+	.header {
+		grid-template-columns: auto;  /* Fica só uma coluna */
+	}
+	.logo {
+		margin-bottom: 20px; /* Separa os elementos */
+	}
+	.header nav a {
+		font-size: 1em;   /* Diminiu tipografia menu para caber um do lado do outro */
+	}
+
+	.header li + li {
+		margin-left: 10px; /* diminui para 10 px*/
+	}
+}
+
+
+/* SIDENAV */
+
+.sidenav {
+	grid-area: sidenav;
+	background: #fafbfc;
+	padding: 30px;
+}
+
+.sidenav li a {
+	display: block;
+	min-width: 60px; /* Minimo do quadro dos bixos 60px */
+	max-width: 100px; /* maximo do quadro dos bixos 100px */
+	margin: 0 auto 30px auto; /* alto, lado, baixo lado */
+	background: white;
+	padding: 20px;
+	border-radius: 5px;
+	box-shadow: 5px 5px 15px 0px rgba(44,44,44,0.15);
+	transition: .1s ease-out;
+}
+
+.sidenav li a:hover { /* Comandos para quando estiver com o mouse por cima */
+	background: #B07DFB;  /* Findo fica roxo */
+}
+
+@keyframes seta {  /* Animação seta */
+	from {
+		right: 30px;
+	}
+	to{
+		right: 20px;
+	}
+}
+
+@media (max-width: 760px) {
+
+	.sidenav {    /* Vai fazer com que o scroll fique apenas na barra de navegação */
+		position: relative; /* Faz a seta ficar em cima dos icones */
+		overflow-x: auto;  /* Se quebrar a coluna coloca uma barra nos icones na sidenav */
+		-webkit-overflow-scrolling: touch;  /* Precisa para ver no celular iphone*/
+		-ms-overflow-style: -ms-autohiding-srollbar;
+	}
+
+	.sidenav::after {  /* Bota a setinha na barra de scroll dos icones */
+		content: '🠒';   /* Utiliza tabela ASCII para encontrar caractere seta */
+		position: absolute;
+		top: 5px;
+		right: 30px;  /* Deixa a seta na parte mais a direita antes da rolagem nos icones */
+		color: rgba(0,0,0,.3);
+		animation: seta .5s ease-in 0s infinite alternate; /* Boto minha animação (Keiframe) */
+		/*
+			seta
+			velocidade de .5
+			modo de animar (comeca mais rapido e fica mais lento)
+			0 segundos para iniciar
+			rodar de forma infinita
+			tem que botar alternate pois se não ele da umas travadas
+		*/
+	}
+
+	.sidenav ul {
+		display: flex; /* Faz icones dos animais ficarem um do lado do outro */
+	}
+
+	.sidenav ul li {
+		flex: 1 0 60px; /* Não diminui mais q 60px */
+	}
+
+	.sidenav {
+		padding: 0 30px; /* Tira padding de cima e de baixo */
+	}
+	.sidenav li a {
+		margin: 30px 30px 30px 0;
+	}
+}
+
+
+/* CONTENT */
+
+.content {
+	grid-area: content;
+	max-width: 900px; /* Máximo tamanho */
+	margin: 0 auto;  /* Se crescer mais que os 900 ele alinha ao centro */
+	padding: 30px;
+	display: grid;
+	grid-template-columns: 1fr 1fr; /* Faz duas colunas com o mesmo tamanho */
+	grid-gap: 30px;  /* Separa os itens na vertical */
+}
+
+@media (max-width: 600px) {
+	.content {
+		grid-template-columns: auto;  /* Muda para uma coluna */
+	}
+}
+
+.col-wide {  /* Fazer colunas que se expandam até o 100% na linha */
+	grid-column: 1 / -1;  /* Pega de ponta a ponta */
+}
+
+.imagem-1 {
+	grid-row: span 2; /* Expande por 2 linhas (Abrange 2 linhas) */
+	align-self: end;   
+	/*
+		EIXO VERTICAL : ALIGN;
+		EIXO HORIZONTAL: JUSTFY;
+		SELF: PRÓPRIO ITEM;
+	*/
+}
+
+.item-2 {
+	align-self: end;
+}
+
+
+/* ESTILOS CONTENT */
+
+p {  /* Fala com os paragrafos do content */
+	font-size: 1.2em;
+	line-height: 1.6;
+	letter-spacing: -0.005em;
+	color: rgba(0,0,0,.7);  /* Deixa a letra cinzinha */
+}
+
+.informacoes p + p { /* Quero falar com um p que vem após outro p */
+	margin-top: 30px; /* Margem top fica só so segundo */
+}
+
+/* Titulo */
+
+.titulo {
+	color: #B07DFB;
+}
+
+.titulo h1 {
+	font-size: 3.75em;
+	line-height: 1;
+	font-weight: 700; /* Valor puxado da tipografia */
+}
+
+.titulo span {
+	font-size: 0.875em;
+	font-style: italic;
+}
+
+/* Caracteristicas */
+
+.caracteristicas {
+	display: flex;  /* Deixa um do lado do outro */
+	align-items: flex-start;
+}
+
+.caracteristicas > div {  /* Só div que estao diretamente dentro de caracteristicas */
+	width: 80px;
+	text-align: center;
+	background: linear-gradient(135deg, #8844ee, #B07DFB);
+	border-radius: 5px;
+	box-shadow: 5px 5px 15px 0px rgba(44,44,44,0.15);
+	position: relative;
+	align-items: flex-start;
+}
+
+.caracteristicas > div:first-child { /* Fala só com a primeira div */
+	margin-right: 30px;
+}
+
+.caracteristicas span {
+	display: block; /* Linha do kg e age ficam de ponta a ponta */
+	color: #B07DFB;
+}
+
+.numero {
+	color: #B07DFB;
+	font-size: 3em;
+	line-height: 1;
+	margin: 10px auto;
+}
+
+.rotulo {
+	background: white;
+	border-radius: 0 0 5px 5px; /*cima cima baixo baixo*/	
+	padding: 5px 0; /* cima/baix   lado/lado */
+	position: relative;
+	top: 2px;
+}
+
+.destaque {
+	font-size: 0.875em;
+	color: #B07DFB;
+	max-width: 16em;
+}
+
+.citacao, .atributos {
+	padding: 30px;
+	border-radius: 5px;
+	box-shadow: 5px 5px 15px 0px  rgba(44,44,44,0.15);    
+	/* 
+		primeiro px: sobra deslocada em "3d";
+		segundo px: para baixo;
+		terceiro px: espalha a cor;
+		ultimo: crescer sombra;
+		cor
+	*/
+	background: linear-gradient(135deg, #8844ee, #B07DFB);
+	align-self: flex-start; /* Sem isso temos mais espaço na barra roxa sobrando */
+}
+
+.citacao p {
+	font-size: 1.5em;
+	font-style: italic;
+	text-align: center;
+	/*background: blue;*/
+	max-width: 500px;  /* Maximo tamanho do bloco azul */
+	margin: 0 auto; /* Alinha o bloco azul ao centro */
+	color: white;
+}
+
+.atributos li {
+	color: white;
+	font-family: Courier, monospace;
+	font-size: 1.125em;
+	padding: 15px;
+	border-bottom: 2px solid #B07DFB;   /* Borda que divide os atributos */
+}
+
+.atributos li + li {
+	border-top: 2px solid #B07DFB;  /* Faz a barra ficar em cima de cada atributo*/
+}
+
+
+
+/* ANUNCIOS*/
+
+.anuncios {
+	grid-area: anuncios;
+	background: #fafbfc;
+	display: grid;
+	align-content: start;  /* Deixa as imagens do anuncio alinhadas na vertical*/
+	padding: 30px;
+	grid-gap: 30px; /* Faz distância entre os dois anuncios na vertical */
+	grid-template-columns: repeat(auto-fit, 
+	minmax(150px, 1fr));  /* Bota quantas colunas que der com no minimo 150px de largura e maximo 1fr*/
+}
+
+/* FOOTER */
+
+.footer {
+	grid-area: footer; 
+	background: linear-gradient(135deg, #8844ee, #B07DFB);
+}
+
+.footer p {
+	color: white;
+	text-align: center;
+	padding: 30px;
+}
